@@ -11,7 +11,7 @@ Extracted from the footer of [shipstar.ai](https://shipstar.ai).
 The package is installed straight from GitHub (the built files are committed, so there is no build step on install):
 
 ```bash
-npm install github:turbo-labs/ask-ai#v0.1.1
+npm install github:turbo-labs/ask-ai#v0.1.2
 ```
 
 Requires React 18 or newer.
@@ -52,7 +52,7 @@ The label inherits your text colour and font, so a colour class on the wrapper i
 
 | Property | Default | |
 |---|---|---|
-| `--ask-ai-size` | `24px` | Icon height. |
+| `--ask-ai-size` | `24px` | Icon height. Set this rather than sizing `.ask-ai-icon` directly: the size rule is deliberately specific enough to survive global `img` resets. |
 | `--ask-ai-gap` | `16px` | Space between icons. |
 | `--ask-ai-opacity` | `0.7` | Resting opacity; links go to `1` on hover and focus. |
 | `--ask-ai-label-color` | `inherit` | |

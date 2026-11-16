@@ -55,6 +55,8 @@ describe("<AskAi>", () => {
     assert.ok(html.includes('data-ask-ai="claude"'))
     assert.ok(html.includes("Ask Claude for a summary"))
     assert.ok(html.includes("<style>"))
+    // Icon size must outrank a host's global `img { height: auto }` reset.
+    assert.ok(html.includes(".ask-ai .ask-ai-icon{height:var(--ask-ai-size,24px)"))
     // Host-tunable values are custom properties (layered utilities can't override unlayered rules).
     for (const v of ["--ask-ai-size", "--ask-ai-gap", "--ask-ai-opacity", "--ask-ai-label-color", "--ask-ai-label-size", "--ask-ai-label-leading", "--ask-ai-label-gap"])
       assert.ok(html.includes(`var(${v},`), v)
