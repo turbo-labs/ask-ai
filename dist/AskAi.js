@@ -2,9 +2,11 @@ import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-run
 import { icons } from "./icons.js";
 import { askAiLinks } from "./links.js";
 const builtinIcons = icons;
-// Zero specificity (:where) so any host class wins without !important.
+// Zero specificity (:where), so unlayered host CSS wins. Utilities that live in
+// a cascade layer (Tailwind 4) lose to any unlayered rule whatever its
+// specificity, so everything a host may want to change is a custom property.
 const css = `
-:where(.ask-ai-label){margin:0 0 12px;font-size:12px;line-height:1.5;color:var(--ask-ai-label-color,inherit)}
+:where(.ask-ai-label){margin:0 0 var(--ask-ai-label-gap,12px);font-size:var(--ask-ai-label-size,12px);line-height:var(--ask-ai-label-leading,1.5);color:var(--ask-ai-label-color,inherit)}
 :where(.ask-ai-links){display:flex;flex-wrap:wrap;align-items:center;gap:var(--ask-ai-gap,16px)}
 :where(.ask-ai-link){display:inline-flex;opacity:var(--ask-ai-opacity,.7);transition:opacity .15s ease}
 :where(.ask-ai-link:hover,.ask-ai-link:focus-visible){opacity:1}

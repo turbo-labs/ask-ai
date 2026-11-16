@@ -1,6 +1,6 @@
 {
   "name": "@turbo-labs/ask-ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A row of \"ask AI about this product\" links: one click opens ChatGPT, Claude, Perplexity, Grok or Gemini with your prompt prefilled.",
   "license": "MIT",
   "author": "Turbo Labs",

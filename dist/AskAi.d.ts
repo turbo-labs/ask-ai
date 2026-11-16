@@ -9,7 +9,7 @@ export interface AskAiProps extends AskAiLinksOptions {
     size?: number;
     /** Gap between icons in CSS pixels. Default 16. */
     gap?: number;
-    /** Class on the wrapper, for layout or to override the `--ask-ai-*` custom properties. */
+    /** Class on the wrapper, for layout or to set the `--ask-ai-*` custom properties. */
     className?: string;
     style?: CSSProperties;
     /** Skip the built-in stylesheet and style the `ask-ai*` classes yourself. */

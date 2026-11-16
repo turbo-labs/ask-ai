@@ -11,7 +11,7 @@ Extracted from the footer of [shipstar.ai](https://shipstar.ai).
 The package is installed straight from GitHub (the built files are committed, so there is no build step on install):
 
 ```bash
-npm install github:turbo-labs/ask-ai#v0.1.0
+npm install github:turbo-labs/ask-ai#v0.1.1
 ```
 
 Requires React 18 or newer.
@@ -48,16 +48,25 @@ Write the prompt the way a visitor would ask it, and name your domain so the ass
 
 ### Styling
 
-The built-in styles are a few rules at zero specificity (`:where(...)`), so any class of yours wins without `!important`. The label inherits your text colour and font.
+The label inherits your text colour and font, so a colour class on the wrapper is usually all it needs. Everything else is a custom property, set on the wrapper or any ancestor:
 
-- Classes: `ask-ai`, `ask-ai-label`, `ask-ai-links`, `ask-ai-link`, `ask-ai-icon`.
-- Custom properties on the wrapper: `--ask-ai-size`, `--ask-ai-gap`, `--ask-ai-opacity` (resting opacity, `0.7`; links go to `1` on hover and focus), `--ask-ai-label-color`.
+| Property | Default | |
+|---|---|---|
+| `--ask-ai-size` | `24px` | Icon height. |
+| `--ask-ai-gap` | `16px` | Space between icons. |
+| `--ask-ai-opacity` | `0.7` | Resting opacity; links go to `1` on hover and focus. |
+| `--ask-ai-label-color` | `inherit` | |
+| `--ask-ai-label-size` | `12px` | |
+| `--ask-ai-label-leading` | `1.5` | Label line height. |
+| `--ask-ai-label-gap` | `12px` | Space between label and icons. |
 
 With Tailwind:
 
 ```tsx
-<AskAi className="[&_.ask-ai-label]:text-neutral-400" label="…" prompt="…" />
+<AskAi className="text-neutral-400 [--ask-ai-label-leading:1rem]" label="…" prompt="…" />
 ```
+
+Use the properties rather than targeting the inner classes with utilities: Tailwind 4 emits utilities inside a cascade layer, and layered rules lose to the component's unlayered ones whatever their specificity. Plain unlayered CSS does override them (the built-in rules have zero specificity), and `unstyled` drops them entirely. Classes: `ask-ai`, `ask-ai-label`, `ask-ai-links`, `ask-ai-link`, `ask-ai-icon`.
 
 ### Tracking clicks
 
