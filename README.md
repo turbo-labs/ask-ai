@@ -15,7 +15,7 @@ Extracted from the footer of [shipstar.ai](https://shipstar.ai).
 The package is installed straight from GitHub (the built files are committed, so there is no build step on install):
 
 ```bash
-npm install github:turbo-labs/ask-ai#v0.1.3
+npm install github:turbo-labs/ask-ai#v0.1.4
 ```
 
 Requires React 18 or newer.
@@ -43,7 +43,7 @@ Write the prompt the way a visitor would ask it, and name your domain so the ass
 |---|---|---|---|
 | `prompt` | `string` | required | The question to prefill. |
 | `label` | `ReactNode` | none | Text above the icons. |
-| `providers` | `Array<id \| AskAiProvider>` | all five | Which assistants to show, in order. Ids: `chatgpt`, `claude`, `perplexity`, `grok`, `gemini`. |
+| `providers` | `Array<id \| AskAiProvider>` | the first five | Which assistants to show, in order. Ids: `chatgpt`, `claude`, `perplexity`, `grok`, `gemini`, plus the opt-in `copilot` and `mistral`. |
 | `linkLabel` | `(name) => string` | `Ask {name} for a summary` | Accessible name and tooltip of each link. |
 | `size` | `number` | `24` | Icon size in px. |
 | `gap` | `number` | `16` | Space between icons in px. |
@@ -88,6 +88,16 @@ Every icon gets a hairline light edge and the resting opacity rises to `0.9`. Th
 
 Each link carries `data-ask-ai="<provider id>"`, so a delegated listener or a tag-manager click trigger can count them without the component shipping any JavaScript.
 
+### Copilot and Mistral
+
+Both are built in but left out of the default row, so name them to show them:
+
+```tsx
+<AskAi prompt="…" providers={["chatgpt", "claude", "perplexity", "grok", "gemini", "copilot", "mistral"]} />
+```
+
+`copilot` opens Bing's Copilot search rather than copilot.microsoft.com, because that site sends signed-out visitors to a sign-in page and drops the prompt. The page it lands on is titled "AI Mode". `mistral` opens Mistral's assistant (Vibe, formerly Le Chat).
+
 ### Another assistant
 
 Pass a provider object. `url` receives the prompt already URL-encoded.
@@ -98,7 +108,7 @@ Pass a provider object. `url` receives the prompt already URL-encoded.
   providers={[
     "chatgpt",
     "claude",
-    { id: "lechat", name: "Le Chat", url: (q) => `https://chat.mistral.ai/chat?q=${q}`, icon: "/lechat.png" },
+    { id: "duckai", name: "Duck.ai", url: (q) => `https://duckduckgo.com/?q=${q}&ia=chat`, icon: "/duckai.png" },
   ]}
 />
 ```
@@ -123,6 +133,8 @@ The icons are in `assets/` as 64px PNGs if you render the links yourself.
 | Perplexity | `https://perplexity.ai/search/new?q=…` |
 | Grok | `https://x.com/i/grok?text=…` |
 | Gemini | `https://www.google.com/search?udm=50&aep=11&q=…` (Google AI Mode) |
+| Copilot (opt-in) | `https://www.bing.com/copilotsearch?q=…` (Bing Copilot search) |
+| Mistral (opt-in) | `https://chat.mistral.ai/chat?q=…` |
 
 These are the vendors' own prefill parameters and they change them now and then. If one stops working, please open an issue or a pull request against `src/links.ts`.
 

@@ -2,7 +2,7 @@
 // no bundler image loader and no files copied into the host site's public/.
 import { readFileSync, writeFileSync } from "node:fs"
 
-const ids = ["chatgpt", "claude", "perplexity", "grok", "gemini"]
+const ids = ["chatgpt", "claude", "perplexity", "grok", "gemini", "copilot", "mistral"]
 const root = new URL("..", import.meta.url)
 
 const entries = ids.map((id) => {

@@ -1,7 +1,7 @@
 {
   "name": "@turbo-labs/ask-ai",
-  "version": "0.1.3",
-  "description": "A row of \"ask AI about this product\" links: one click opens ChatGPT, Claude, Perplexity, Grok or Gemini with your prompt prefilled.",
+  "version": "0.1.4",
+  "description": "A row of \"ask AI about this product\" links: one click opens ChatGPT, Claude, Perplexity, Grok or Gemini with your prompt prefilled. Copilot and Mistral are built in as opt-in providers.",
   "license": "MIT",
   "author": "Turbo Labs",
   "repository": {
@@ -17,6 +17,8 @@
     "perplexity",
     "grok",
     "gemini",
+    "copilot",
+    "mistral",
     "react",
     "marketing",
     "aeo",

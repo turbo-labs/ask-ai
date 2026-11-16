@@ -36,8 +36,22 @@ describe("askAiLinks", () => {
     assert.ok(links[1].href.startsWith("https://chat.mistral.ai/chat?q=How%20can"))
   })
 
+  it("ships Copilot and Mistral as opt-in providers", () => {
+    const q = encodeURIComponent(prompt)
+    assert.ok(!askAiLinks({ prompt }).some((l) => l.id === "copilot" || l.id === "mistral"))
+    assert.deepEqual(
+      askAiLinks({ prompt, providers: ["copilot", "mistral"] }).map((l) => [l.id, l.name, l.href]),
+      [
+        ["copilot", "Copilot", `https://www.bing.com/copilotsearch?q=${q}`],
+        ["mistral", "Mistral", `https://chat.mistral.ai/chat?q=${q}`],
+      ],
+    )
+    const html = renderToStaticMarkup(h(AskAi, { prompt, providers: ["copilot", "mistral"] }))
+    assert.equal(count(html, /src="data:image\/png;base64,/g), 2)
+  })
+
   it("rejects an unknown provider id", () => {
-    assert.throws(() => askAiLinks({ prompt, providers: ["copilot"] }), /unknown provider/)
+    assert.throws(() => askAiLinks({ prompt, providers: ["deepseek"] }), /unknown provider/)
   })
 
   it("is importable without React from the /links entry", () => {
