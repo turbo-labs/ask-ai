@@ -62,6 +62,19 @@ describe("<AskAi>", () => {
       assert.ok(html.includes(`var(${v},`), v)
   })
 
+  it("marks the wrapper for the dark theme without touching the provider attribute", () => {
+    const light = renderToStaticMarkup(h(AskAi, { prompt }))
+    const dark = renderToStaticMarkup(h(AskAi, { prompt, theme: "dark" }))
+    assert.ok(light.startsWith('<div class="ask-ai"><style>'))
+    assert.ok(dark.includes('<div class="ask-ai" data-ask-ai-theme="dark"'))
+    // Click tracking keys on [data-ask-ai]; the wrapper must not match it.
+    assert.equal(count(dark, / data-ask-ai="/g), 5)
+    // The edge is transparent unless the host or the dark theme sets it, and dark only changes fallbacks.
+    assert.ok(dark.includes("outline:1px solid var(--ask-ai-edge,transparent)"))
+    assert.ok(dark.includes('[data-ask-ai-theme="dark"] .ask-ai-icon){outline-color:var(--ask-ai-edge,rgb(255 255 255/.28))}'))
+    assert.ok(dark.includes('[data-ask-ai-theme="dark"] .ask-ai-link){opacity:var(--ask-ai-opacity,.9)}'))
+  })
+
   it("supports unstyled, sizing and a custom link label", () => {
     const html = renderToStaticMarkup(
       h(AskAi, { prompt, unstyled: true, size: 32, providers: ["grok"], linkLabel: (n) => `Open ${n}` }),

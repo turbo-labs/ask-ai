@@ -4,6 +4,10 @@ A row of "ask AI about this product" links for your website. One click opens Cha
 
 It is a set of plain prefill URLs, so there is no API key, no backend and no client-side JavaScript. The React component has no hooks and renders as a Server Component.
 
+<img src="docs/ask-ai-light.png" alt="The ask-ai row on a light background: the label “Ask AI for a summary of Acme” above ChatGPT, Claude, Perplexity, Grok and Gemini icons" width="420">
+
+<img src="docs/ask-ai-dark.png" alt="The same row on a dark background with theme set to dark: each icon has a hairline light edge" width="420">
+
 Extracted from the footer of [shipstar.ai](https://shipstar.ai).
 
 ## Install
@@ -11,7 +15,7 @@ Extracted from the footer of [shipstar.ai](https://shipstar.ai).
 The package is installed straight from GitHub (the built files are committed, so there is no build step on install):
 
 ```bash
-npm install github:turbo-labs/ask-ai#v0.1.2
+npm install github:turbo-labs/ask-ai#v0.1.3
 ```
 
 Requires React 18 or newer.
@@ -43,6 +47,7 @@ Write the prompt the way a visitor would ask it, and name your domain so the ass
 | `linkLabel` | `(name) => string` | `Ask {name} for a summary` | Accessible name and tooltip of each link. |
 | `size` | `number` | `24` | Icon size in px. |
 | `gap` | `number` | `16` | Space between icons in px. |
+| `theme` | `"light" \| "dark"` | `"light"` | The surface the row sits on. See [Dark surfaces](#dark-surfaces). |
 | `className`, `style` | | | Applied to the wrapper. |
 | `unstyled` | `boolean` | `false` | Skip the built-in styles. |
 
@@ -54,7 +59,8 @@ The label inherits your text colour and font, so a colour class on the wrapper i
 |---|---|---|
 | `--ask-ai-size` | `24px` | Icon height. Set this rather than sizing `.ask-ai-icon` directly: the size rule is deliberately specific enough to survive global `img` resets. |
 | `--ask-ai-gap` | `16px` | Space between icons. |
-| `--ask-ai-opacity` | `0.7` | Resting opacity; links go to `1` on hover and focus. |
+| `--ask-ai-opacity` | `0.7` (`0.9` on dark) | Resting opacity; links go to `1` on hover and focus. |
+| `--ask-ai-edge` | `transparent` (`rgb(255 255 255 / .28)` on dark) | Colour of the 1px edge around each icon. |
 | `--ask-ai-label-color` | `inherit` | |
 | `--ask-ai-label-size` | `12px` | |
 | `--ask-ai-label-leading` | `1.5` | Label line height. |
@@ -67,6 +73,16 @@ With Tailwind:
 ```
 
 Use the properties rather than targeting the inner classes with utilities: Tailwind 4 emits utilities inside a cascade layer, and layered rules lose to the component's unlayered ones whatever their specificity. Plain unlayered CSS does override them (the built-in rules have zero specificity), and `unstyled` drops them entirely. Classes: `ask-ai`, `ask-ai-label`, `ask-ai-links`, `ask-ai-link`, `ask-ai-icon`.
+
+### Dark surfaces
+
+The Perplexity and Grok icons are near-black tiles, so on a dark footer they sink into the background. Pass `theme="dark"`:
+
+```tsx
+<AskAi theme="dark" className="text-neutral-400" label="…" prompt="…" />
+```
+
+Every icon gets a hairline light edge and the resting opacity rises to `0.9`. The theme only changes the defaults, so `--ask-ai-edge` and `--ask-ai-opacity` still override it. It is a prop rather than a `prefers-color-scheme` query because a dark footer on a light site is the common case. The wrapper carries `data-ask-ai-theme="dark"` if you want to hook your own CSS onto it.
 
 ### Tracking clicks
 

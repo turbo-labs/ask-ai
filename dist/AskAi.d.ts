@@ -9,6 +9,12 @@ export interface AskAiProps extends AskAiLinksOptions {
     size?: number;
     /** Gap between icons in CSS pixels. Default 16. */
     gap?: number;
+    /**
+     * The surface the row sits on. `"dark"` gives every icon a hairline light edge and a
+     * higher resting opacity, so the near-black Perplexity and Grok tiles stay visible.
+     * Default `"light"`.
+     */
+    theme?: "light" | "dark";
     /** Class on the wrapper, for layout or to set the `--ask-ai-*` custom properties. */
     className?: string;
     style?: CSSProperties;
@@ -19,4 +25,4 @@ export interface AskAiProps extends AskAiLinksOptions {
  * A row of links that open an AI assistant with your prompt prefilled.
  * No hooks, no client JavaScript: it renders as a React Server Component.
  */
-export declare function AskAi({ prompt, providers, label, linkLabel, size, gap, className, style, unstyled, }: AskAiProps): import("react").JSX.Element;
+export declare function AskAi({ prompt, providers, label, linkLabel, size, gap, theme, className, style, unstyled, }: AskAiProps): import("react").JSX.Element;

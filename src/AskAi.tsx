@@ -11,6 +11,12 @@ export interface AskAiProps extends AskAiLinksOptions {
   size?: number
   /** Gap between icons in CSS pixels. Default 16. */
   gap?: number
+  /**
+   * The surface the row sits on. `"dark"` gives every icon a hairline light edge and a
+   * higher resting opacity, so the near-black Perplexity and Grok tiles stay visible.
+   * Default `"light"`.
+   */
+  theme?: "light" | "dark"
   /** Class on the wrapper, for layout or to set the `--ask-ai-*` custom properties. */
   className?: string
   style?: CSSProperties
@@ -26,12 +32,17 @@ const builtinIcons: Record<string, string> = icons
 // Icon size is the one rule with real specificity: global `img` resets
 // (`height:auto`, `max-width:100%`) would otherwise blow the icons up to
 // their natural size.
+// The dark theme only changes fallbacks, never the properties themselves, so a
+// host's `--ask-ai-opacity` or `--ask-ai-edge` still wins on either theme.
 const css = `
 :where(.ask-ai-label){margin:0 0 var(--ask-ai-label-gap,12px);font-size:var(--ask-ai-label-size,12px);line-height:var(--ask-ai-label-leading,1.5);color:var(--ask-ai-label-color,inherit)}
 :where(.ask-ai-links){display:flex;flex-wrap:wrap;align-items:center;gap:var(--ask-ai-gap,16px)}
 :where(.ask-ai-link){display:inline-flex;opacity:var(--ask-ai-opacity,.7);transition:opacity .15s ease}
 :where(.ask-ai-link:hover,.ask-ai-link:focus-visible){opacity:1}
-:where(.ask-ai-icon){display:block;border-radius:22%}
+:where(.ask-ai-icon){display:block;border-radius:22%;outline:1px solid var(--ask-ai-edge,transparent)}
+:where(.ask-ai[data-ask-ai-theme="dark"] .ask-ai-link){opacity:var(--ask-ai-opacity,.9)}
+:where(.ask-ai[data-ask-ai-theme="dark"] .ask-ai-link:hover,.ask-ai[data-ask-ai-theme="dark"] .ask-ai-link:focus-visible){opacity:1}
+:where(.ask-ai[data-ask-ai-theme="dark"] .ask-ai-icon){outline-color:var(--ask-ai-edge,rgb(255 255 255/.28))}
 .ask-ai .ask-ai-icon{height:var(--ask-ai-size,24px);width:auto;max-width:none}
 :where(.ask-ai-sr){position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 `.trim()
@@ -47,6 +58,7 @@ export function AskAi({
   linkLabel = (name) => `Ask ${name} for a summary`,
   size,
   gap,
+  theme,
   className,
   style,
   unstyled = false,
@@ -57,7 +69,11 @@ export function AskAi({
   if (gap !== undefined) vars["--ask-ai-gap"] = `${gap}px`
 
   return (
-    <div className={className ? `ask-ai ${className}` : "ask-ai"} style={{ ...vars, ...style } as CSSProperties}>
+    <div
+      className={className ? `ask-ai ${className}` : "ask-ai"}
+      data-ask-ai-theme={theme === "dark" ? "dark" : undefined}
+      style={{ ...vars, ...style } as CSSProperties}
+    >
       {!unstyled && <style dangerouslySetInnerHTML={{ __html: css }} />}
       {label != null && <p className="ask-ai-label">{label}</p>}
       <div className="ask-ai-links">
