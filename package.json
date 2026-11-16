@@ -1,0 +1,60 @@
+{
+  "name": "@turbo-labs/ask-ai",
+  "version": "0.1.0",
+  "description": "A row of \"ask AI about this product\" links: one click opens ChatGPT, Claude, Perplexity, Grok or Gemini with your prompt prefilled.",
+  "license": "MIT",
+  "author": "Turbo Labs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/turbo-labs/ask-ai.git"
+  },
+  "homepage": "https://github.com/turbo-labs/ask-ai#readme",
+  "bugs": "https://github.com/turbo-labs/ask-ai/issues",
+  "keywords": [
+    "ask-ai",
+    "chatgpt",
+    "claude",
+    "perplexity",
+    "grok",
+    "gemini",
+    "react",
+    "marketing",
+    "aeo",
+    "geo"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./links": {
+      "types": "./dist/links.d.ts",
+      "default": "./dist/links.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "assets"
+  ],
+  "scripts": {
+    "icons": "node scripts/build-icons.mjs",
+    "build": "npm run icons && rm -rf dist && tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run build && node --test test/*.test.mjs"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "react": "^19",
+    "react-dom": "^19",
+    "typescript": "^5"
+  }
+}
